@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" role="img"
+     aria-label="Frequency response of a power grid after a load disturbance, comparing an uncontrolled deviation with a regulated response that settles quickly at nominal frequency.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f1f8ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#0366d6" opacity="0.13"/>
+    </pattern>
+    <style><![CDATA[
+      .trace { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .lbl { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+      .draw { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.2s ease-out forwards; }
+      .draw-2 { animation-delay: 0.35s; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      @media (prefers-reduced-motion: reduce) {
+        .draw { animation: none; stroke-dashoffset: 0; }
+      }
+    ]]></style>
+  </defs>
+
+  <rect width="900" height="220" fill="url(#bg)"/>
+  <rect width="900" height="220" fill="url(#dots)"/>
+
+  <!-- nominal frequency reference -->
+  <line x1="40" y1="110" x2="860" y2="110" stroke="#0366d6" stroke-width="1" stroke-dasharray="5 5" opacity="0.55"/>
+  <text class="lbl" x="40" y="102" font-size="11" fill="#0366d6" opacity="0.8">50.0 Hz nominal</text>
+
+  <!-- disturbance marker -->
+  <line x1="210" y1="34" x2="210" y2="196" stroke="#d9381e" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+  <circle cx="210" cy="110" r="3.5" fill="#d9381e"/>
+  <text class="lbl" x="217" y="46" font-size="11" fill="#d9381e" opacity="0.85">load disturbance</text>
+
+  <!-- uncontrolled response: deep dip, poorly damped oscillation -->
+  <path class="trace draw draw-2" stroke="#8a94a6" stroke-width="2" opacity="0.6"
+        d="M40 110 L210 110
+           C238 110 252 168 282 176
+           C316 185 342 96 372 88
+           C402 80 418 140 448 142
+           C476 144 494 98 520 100
+           C548 102 562 122 588 121
+           C616 120 630 105 656 106
+           C700 108 740 110 860 110"/>
+
+  <!-- regulated response: shallow dip, fast settling -->
+  <path class="trace draw" stroke="#0366d6" stroke-width="2.6"
+        d="M40 110 L210 110
+           C232 110 244 142 268 146
+           C296 150 318 112 344 106
+           C372 100 386 116 412 114
+           C444 112 470 110 500 110
+           L860 110"/>
+
+  <!-- deviation bracket -->
+  <line x1="282" y1="112" x2="282" y2="174" stroke="#8a94a6" stroke-width="1" opacity="0.55"/>
+  <text class="lbl" x="290" y="168" font-size="12" fill="#57606a">&#916;f</text>
+
+  <!-- legend -->
+  <g class="lbl" font-size="11.5">
+    <line x1="620" y1="182" x2="648" y2="182" stroke="#0366d6" stroke-width="2.6"/>
+    <text x="655" y="186" fill="#24292e">regulated</text>
+    <line x1="730" y1="182" x2="758" y2="182" stroke="#8a94a6" stroke-width="2" opacity="0.6"/>
+    <text x="765" y="186" fill="#57606a">uncontrolled</text>
+  </g>
+</svg>

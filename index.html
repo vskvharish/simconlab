@@ -23,11 +23,61 @@
         .pub-badge { background-color: #dcffe4; color: #155724; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; font-weight: bold; display: inline-block; margin-right: 5px; }
         a { color: #0366d6; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        
+
+        /* ---------- Person cards (PI + Co-Investigators) ---------- */
+        .pi-card {
+            background: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+        .person-photo {
+            width: 120px;
+            height: 150px;
+            flex: 0 0 120px;
+            object-fit: cover;          /* crops to fill without distorting */
+            object-position: center top; /* keeps the face in frame on portrait crops */
+            border-radius: 4px;
+            border: 1px solid #d1d5da;
+            background: #eaecef;         /* visible placeholder if the file is missing */
+            display: block;
+        }
+        .person-details { min-width: 0; }
+        .person-name { font-weight: 700; color: #24292e; font-size: 1.05em; }
+        .person-role { color: #555; }
+        .person-meta { color: #444; font-size: 0.95em; }
+
+        /* Two-up grid so extra Co-Investigators just slot in */
+        .investigator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 16px;
+        }
+        .investigator-grid .pi-card { margin-bottom: 0; }
+
         /* Team Grid Styles */
-        .pi-card { background: #f8f9fa; border: 1px solid #e1e4e8; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
         .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 10px 0; }
         .student-item { background: #fff; border: 1px solid #e1e4e8; padding: 8px 12px; border-radius: 4px; font-size: 0.95em; color: #24292e; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+
+        /* ---------- Disclaimer ---------- */
+        .site-disclaimer {
+            margin-top: 45px;
+            padding-top: 15px;
+            border-top: 1px solid #eaecef;
+            font-size: 0.8em;
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        /* ---------- Small screens ---------- */
+        @media (max-width: 520px) {
+            .pi-card { flex-direction: column; align-items: center; text-align: center; }
+            .person-photo { width: 140px; height: 175px; flex-basis: auto; }
+        }
     </style>
 </head>
 <body>
@@ -51,38 +101,74 @@
 
     <section id="team">
         <h2>Research Team</h2>
-        
+
         <h3>Principal Investigator</h3>
         <div class="pi-card">
-            <strong>Dr. V S K V HARISH</strong><br>
-            <span style="color: #555;">Assistant Professor</span><br>
-            VI/215, Department of Electrical Engineering, </span><br>
-            Netaji Subhas University of Technology (NSUT), </span><br>
-            Sector - 3, Dwarka, Delhi.</span><br>
-            vskv.harish@nsut.ac.in</span><br>
-            vskvharish@ieee.org
+            <img class="person-photo" src="images/vskv-harish.jpg" alt="Dr. V S K V Harish">
+            <div class="person-details">
+                <div class="person-name">Dr. V S K V HARISH</div>
+                <div class="person-role">Assistant Professor</div>
+                <div class="person-meta">
+                    VI/215, Department of Electrical Engineering,<br>
+                    Netaji Subhas University of Technology (NSUT),<br>
+                    Sector - 3, Dwarka, Delhi.<br>
+                    <a href="mailto:vskv.harish@nsut.ac.in">vskv.harish@nsut.ac.in</a><br>
+                    <a href="mailto:vskvharish@ieee.org">vskvharish@ieee.org</a>
+                </div>
+            </div>
         </div>
 
-        <h3>Co-Investigators/Collaborators</h3>
-        <div class="pi-card">
-            <strong>Dr. Ravinder Singh</strong><br>
-            <span style="color: #555;">Assistant Professor</span><br>
-            VI/104, Department of Electrical Engineering, </span><br>
-            Netaji Subhas University of Technology (NSUT), </span><br>
-            Sector - 3, Dwarka, Delhi.</span><br>
-            ravinder.singh@nsut.ac.in</span><br>
+        <h3>Co-Investigators / Collaborators</h3>
+        <div class="investigator-grid">
+
+            <div class="pi-card">
+                <img class="person-photo" src="images/ravinder-singh.jpg" alt="Dr. Ravinder Singh">
+                <div class="person-details">
+                    <div class="person-name">Dr. Ravinder Singh</div>
+                    <div class="person-role">Assistant Professor</div>
+                    <div class="person-meta">
+                        VI/104, Department of Electrical Engineering,<br>
+                        Netaji Subhas University of Technology (NSUT),<br>
+                        Sector - 3, Dwarka, Delhi.<br>
+                        <a href="mailto:ravinder.singh@nsut.ac.in">ravinder.singh@nsut.ac.in</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 TO ADD ANOTHER CO-INVESTIGATOR:
+                 copy the block below, remove these comment markers, and fill it in.
+                 Save the photo as images/firstname-lastname.jpg and match the src.
+                 Add as many as you like; the grid reflows on its own.
+            ====================================================================
+            <div class="pi-card">
+                <img class="person-photo" src="images/FILENAME.jpg" alt="FULL NAME">
+                <div class="person-details">
+                    <div class="person-name">FULL NAME</div>
+                    <div class="person-role">DESIGNATION</div>
+                    <div class="person-meta">
+                        ROOM / OFFICE,<br>
+                        DEPARTMENT,<br>
+                        INSTITUTION,<br>
+                        CITY.<br>
+                        <a href="mailto:EMAIL">EMAIL</a>
+                    </div>
+                </div>
+            </div>
+            ==================================================================== -->
+
         </div>
 
         <h3>Doctoral Researchers (PhD)</h3>
         <ul>
-            <li><strong>Ms. Sweta Gupta, Enrollment: 2022</strong> — Researching the <em>Development of various hybrid evolutionary meta-heuristicoptimization algorithms to tune the inverter air-conditioner based powergrid frequency regulators</em>.</li>
+            <li><strong>Ms. Sweta Gupta, Enrollment: 2022</strong> — Researching the <em>Development of various hybrid evolutionary meta-heuristic optimization algorithms to tune the inverter air-conditioner based power grid frequency regulators</em>.</li>
             <li><strong>Ms. Prerna Yadav, Enrollment: 2026</strong> — Researching the <em>Impact of hyperscale AI data centres on the electrical grid architecture</em>.</li>
         </ul>
 
         <h3>Postgraduate Research Cohort (M.Tech)</h3>
         <p style="color: #666; font-size: 0.95em; margin-bottom: 10px;">Students driving developments in stochastic cyber-attack modeling, occupant-centric smart systems, and pico-pumped hydro architectures:</p>
         <div class="student-grid">
-            <div class="student-item">Ms.Prerna Yadav</div>
+            <div class="student-item">Ms. Prerna Yadav</div>
             <div class="student-item">Ms. Garima Pariyani</div>
             <div class="student-item">Ms. Shelly Chandra</div>
             <div class="student-item">Ms. Kirti</div>
@@ -153,12 +239,20 @@
 
         <h3>Journals</h3>
         <ul>
-            <li><span class="pub-badge">Published</span> <a href="https://ascelibrary.org/doi/abs/10.1061/JLEED9.EYENG-6458" target="_blank">Thermostatically Controlled Loads as Virtual Energy Storage Systems: Study, Modeling, Comfort-Aware Frequency Regulation and Sensitivity Studies</a>. <span class="journal">ASCE Library</span>.</li>
-            <li><span class="pub-badge">Published</span> <a href="https://journals.sagepub.com/doi/abs/10.1177/09576509261428202" target="_blank">Demand-side frequency regulation of power grids using inverter-based thermostatically controlled loads</a>. <span class="journal">SAGE Journals</span>.</li>
-            <li><span class="pub-badge">Published</span> <a href="https://www.sciencedirect.com/science/article/pii/S2213138823002928" target="_blank">A comprehensive study and assessment of electricity acts and power sector policies of India on social, technical, economic, and environmental fronts</a>. <span class="journal">ScienceDirect</span>.</li>
+            <li><span class="pub-badge">Published</span> <a href="https://ascelibrary.org/doi/abs/10.1061/JLEED9.EYENG-6458" target="_blank" rel="noopener">Thermostatically Controlled Loads as Virtual Energy Storage Systems: Study, Modeling, Comfort-Aware Frequency Regulation and Sensitivity Studies</a>. <span class="journal">ASCE Library</span>.</li>
+            <li><span class="pub-badge">Published</span> <a href="https://journals.sagepub.com/doi/abs/10.1177/09576509261428202" target="_blank" rel="noopener">Demand-side frequency regulation of power grids using inverter-based thermostatically controlled loads</a>. <span class="journal">SAGE Journals</span>.</li>
+            <li><span class="pub-badge">Published</span> <a href="https://www.sciencedirect.com/science/article/pii/S2213138823002928" target="_blank" rel="noopener">A comprehensive study and assessment of electricity acts and power sector policies of India on social, technical, economic, and environmental fronts</a>. <span class="journal">ScienceDirect</span>.</li>
         </ul>
 
         <h3>Conferences</h3>
         <ul>
-            <li><span class="pub-badge">Published</span> <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=AO-p1qAAAAAJ&sortby=pubdate" target="_blank">All Publications</a>. <span class="journal">Google Scholar</span>.</li>
-            
+            <li><span class="pub-badge">Published</span> <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=AO-p1qAAAAAJ&sortby=pubdate" target="_blank" rel="noopener">All Publications</a>. <span class="journal">Google Scholar</span>.</li>
+        </ul>
+    </section>
+
+    <p class="site-disclaimer">
+        This is a privately organized and managed website and is not an official NSUT-handled website.
+    </p>
+
+</body>
+</html>

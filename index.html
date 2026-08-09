@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMCON Team | NSUT Delhi</title>
+    <script>document.documentElement.className += ' js';</script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 30px 20px; }
-        header { border-bottom: 2px solid #0366d6; padding-bottom: 20px; margin-bottom: 30px; }
+        header { padding-bottom: 15px; }
         h1 { color: #0366d6; margin: 0; font-size: 2.2em; font-weight: 700; }
         .subtitle { font-size: 1.2em; color: #555; margin-top: 5px; font-weight: 500; }
         .institution { font-size: 1em; color: #666; font-style: italic; }
         h2 { color: #24292e; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; margin-top: 35px; font-size: 1.5em; }
-        h3 { color: #444; margin-top: 25px; font-size: 1.2em; border-bottom: 1px dashed #eaecef; padding-bottom: 5px; }
+        h2:first-of-type { margin-top: 10px; }
+        h3 { color: #444; margin-top: 30px; font-size: 1.2em; border-bottom: 1px dashed #eaecef; padding-bottom: 5px; }
         .section-desc { font-size: 1.05em; color: #333; text-align: justify; }
         .goal-box { background-color: #f1f8ff; border-left: 5px solid #0366d6; padding: 15px 20px; margin: 25px 0; border-radius: 0 4px 4px 0; }
         .goal-box p { margin: 0; font-size: 1.05em; }
@@ -24,7 +26,53 @@
         a { color: #0366d6; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* ---------- Person cards (PI + Co-Investigators) ---------- */
+        /* ---------- Tab navigation ---------- */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #fff;
+            border-bottom: 2px solid #0366d6;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+        .site-nav a {
+            padding: 10px 16px;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #57606a;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            letter-spacing: 0.02em;
+        }
+        .site-nav a:hover { color: #0366d6; text-decoration: none; background: #f6f8fa; }
+        .site-nav a.active { color: #0366d6; border-bottom-color: #0366d6; }
+        .site-nav a:focus-visible { outline: 2px solid #0366d6; outline-offset: -2px; }
+
+        /* Without JS every page stays visible, so nothing is ever unreachable. */
+        .js .page { display: none; }
+        .js .page.active { display: block; }
+        .page-intro { color: #57606a; font-size: 1em; margin-top: 0; }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            margin-bottom: 28px;
+        }
+
+        /* ---------- Focus areas ---------- */
+        .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
+        .focus-item { border: 1px solid #e1e4e8; border-left: 3px solid #0366d6; border-radius: 4px; padding: 12px 15px; background: #fff; }
+        .focus-item strong { display: block; color: #24292e; font-size: 0.98em; margin-bottom: 3px; }
+        .focus-item span { color: #57606a; font-size: 0.9em; }
+
+        /* ---------- Person cards ---------- */
         .pi-card {
             background: #f8f9fa;
             border: 1px solid #e1e4e8;
@@ -39,11 +87,11 @@
             width: 120px;
             height: 150px;
             flex: 0 0 120px;
-            object-fit: cover;          /* crops to fill without distorting */
-            object-position: center top; /* keeps the face in frame on portrait crops */
+            object-fit: cover;
+            object-position: center top;
             border-radius: 4px;
             border: 1px solid #d1d5da;
-            background: #eaecef;         /* visible placeholder if the file is missing */
+            background: #eaecef;
             display: block;
         }
         .person-details { min-width: 0; }
@@ -51,17 +99,32 @@
         .person-role { color: #555; }
         .person-meta { color: #444; font-size: 0.95em; }
 
-        /* Two-up grid so extra Co-Investigators just slot in */
-        .investigator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 16px;
-        }
+        .investigator-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; }
         .investigator-grid .pi-card { margin-bottom: 0; }
 
-        /* Team Grid Styles */
+        /* ---------- Collaborators (no photos yet) ---------- */
+        .collab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; padding: 10px 0; }
+        .collab-card { background: #fff; border: 1px solid #e1e4e8; border-radius: 4px; padding: 12px 15px; }
+        .collab-card .person-name { font-size: 1em; }
+        .collab-card .affil { color: #57606a; font-size: 0.9em; }
+
+        /* ---------- Student grid ---------- */
         .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 10px 0; }
         .student-item { background: #fff; border: 1px solid #e1e4e8; padding: 8px 12px; border-radius: 4px; font-size: 0.95em; color: #24292e; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+
+        /* ---------- Gallery ---------- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-top: 18px; }
+        .gallery-item { border: 1px solid #e1e4e8; border-radius: 6px; overflow: hidden; background: #fff; }
+        .gallery-item img { width: 100%; height: auto; display: block; background: #f6f8fa; }
+        .gallery-item figcaption { padding: 10px 14px; font-size: 0.9em; color: #57606a; border-top: 1px solid #eaecef; }
+        figure { margin: 0; }
+
+        /* ---------- Contact ---------- */
+        .contact-block { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 18px 20px; margin-bottom: 18px; }
+        .contact-block dl { margin: 0; }
+        .contact-block dt { font-weight: 600; color: #24292e; margin-top: 14px; }
+        .contact-block dt:first-child { margin-top: 0; }
+        .contact-block dd { margin: 2px 0 0 0; color: #444; }
 
         /* ---------- Disclaimer ---------- */
         .site-disclaimer {
@@ -73,10 +136,10 @@
             font-style: italic;
         }
 
-        /* ---------- Small screens ---------- */
         @media (max-width: 520px) {
             .pi-card { flex-direction: column; align-items: center; text-align: center; }
             .person-photo { width: 140px; height: 175px; flex-basis: auto; }
+            .site-nav a { padding: 9px 11px; font-size: 0.88em; }
         }
     </style>
 </head>
@@ -88,7 +151,21 @@
         <div class="institution">Netaji Subhas University of Technology (NSUT), Delhi, India</div>
     </header>
 
-    <section id="about">
+    <nav class="site-nav" aria-label="Main">
+        <a href="#home" data-tab="home">Home</a>
+        <a href="#team" data-tab="team">Team</a>
+        <a href="#publications" data-tab="publications">Publications</a>
+        <a href="#gallery" data-tab="gallery">Gallery</a>
+        <a href="#contact" data-tab="contact">Contact</a>
+    </nav>
+
+    <main>
+
+    <!-- ==================== HOME ==================== -->
+    <section class="page active" id="home">
+        <img class="hero" src="images/hero-frequency-response.svg"
+             alt="Grid frequency response after a load disturbance, comparing a regulated response with an uncontrolled one">
+
         <h2>About the Team</h2>
         <p class="section-desc">
             The Simulation and Control of Sustainable Energy Systems (SIMCON) Team at NSUT, Delhi, conducts advanced computational research at the intersection of modern power systems, smart grid frameworks, and automated control theory. Operating entirely in the high-fidelity simulation domain, the team is exploring the mathematical complexities of decentralized architectures. Key investigative fields include grid-interactive building infrastructures, demand-side management configurations, and multi-area network resilience. SIMCON Team specializes in engineering intelligent frequency regulation algorithms and pioneering peer-to-peer (P2P) localized energy trading mechanisms. Backed by mathematical optimization and soft computing, our workflows evaluate the real-world operational thresholds of next-generation grids facing massive modernization challenges, such as the accelerating growth of data infrastructures and distributed energy integration.
@@ -97,9 +174,41 @@
         <div class="goal-box">
             <p><strong>Overall Research Goal:</strong> To deliver highly secure, scalable, and resilient mathematical control frameworks that protect modern power systems against cyber-adversaries, mitigate stochastic vulnerabilities, and seamlessly optimize renewable-dominated microgrids.</p>
         </div>
+
+        <h2>Research Directions</h2>
+        <div class="focus-grid">
+            <div class="focus-item">
+                <strong>Frequency regulation</strong>
+                <span>Intelligent controllers for multi-area and multi-source systems.</span>
+            </div>
+            <div class="focus-item">
+                <strong>Demand-side management</strong>
+                <span>Thermostatically controlled loads as virtual energy storage.</span>
+            </div>
+            <div class="focus-item">
+                <strong>Grid-interactive buildings</strong>
+                <span>Occupant-centric, comfort-aware control of building loads.</span>
+            </div>
+            <div class="focus-item">
+                <strong>P2P energy trading</strong>
+                <span>Dynamic pricing mechanisms for localized microgrid markets.</span>
+            </div>
+            <div class="focus-item">
+                <strong>Cyber-physical resilience</strong>
+                <span>Control under DoS attacks, time delays and stochastic faults.</span>
+            </div>
+            <div class="focus-item">
+                <strong>Data centre loads</strong>
+                <span>Impact of hyperscale AI infrastructure on grid architecture.</span>
+            </div>
+        </div>
+
+        <img class="hero" style="margin-top: 32px; border: none;" src="images/p2p-microgrid.svg"
+             alt="Peer-to-peer microgrid schematic with solar, wind, battery storage and inverter air-conditioner nodes around a common bus">
     </section>
 
-    <section id="team">
+    <!-- ==================== TEAM ==================== -->
+    <section class="page" id="team">
         <h2>Research Team</h2>
 
         <h3>Principal Investigator</h3>
@@ -118,7 +227,7 @@
             </div>
         </div>
 
-        <h3>Co-Investigators / Collaborators</h3>
+        <h3>Co-Investigator</h3>
         <div class="investigator-grid">
 
             <div class="pi-card">
@@ -136,10 +245,9 @@
             </div>
 
             <!-- ===================================================================
-                 TO ADD ANOTHER CO-INVESTIGATOR:
-                 copy the block below, remove these comment markers, and fill it in.
-                 Save the photo as images/firstname-lastname.jpg and match the src.
-                 Add as many as you like; the grid reflows on its own.
+                 TO ADD ANOTHER CO-INVESTIGATOR WITH A PHOTO:
+                 copy the block below, remove these comment markers, fill it in,
+                 and upload the photo as images/firstname-lastname.jpg
             ====================================================================
             <div class="pi-card">
                 <img class="person-photo" src="images/FILENAME.jpg" alt="FULL NAME">
@@ -157,6 +265,33 @@
             </div>
             ==================================================================== -->
 
+        </div>
+
+        <h3>Collaborators</h3>
+        <div class="collab-grid">
+            <div class="collab-card">
+                <div class="person-name">Dr. Astitva Kumar</div>
+                <div class="affil">Netaji Subhas University of Technology (NSUT), Delhi</div>
+            </div>
+            <div class="collab-card">
+                <div class="person-name">Dr. Subhodip Saha</div>
+                <div class="affil">Netaji Subhas University of Technology (NSUT), Delhi</div>
+            </div>
+            <div class="collab-card">
+                <div class="person-name">Dr. Vineet Kumar</div>
+                <div class="affil">Netaji Subhas University of Technology (NSUT), Delhi</div>
+            </div>
+            <div class="collab-card">
+                <div class="person-name">Dr. Avijit Routh</div>
+                <div class="affil">HIT, Haldia, West Bengal</div>
+            </div>
+
+            <!-- Copy one card to add another collaborator:
+            <div class="collab-card">
+                <div class="person-name">FULL NAME</div>
+                <div class="affil">INSTITUTION, CITY</div>
+            </div>
+            -->
         </div>
 
         <h3>Doctoral Researchers (PhD)</h3>
@@ -207,7 +342,8 @@
         </div>
     </section>
 
-    <section id="under-review">
+    <!-- ==================== PUBLICATIONS ==================== -->
+    <section class="page" id="publications">
         <h2>Research (Under Review)</h2>
         <ul>
             <li>
@@ -232,9 +368,7 @@
                 <span class="status-badge">Under Review</span> <span class="paper-title">Brain-Emotional Learning-Based Intelligent Frequency Regulation System for a Multi-Source Hydro-Wind-Solar-Battery Energy System</span>. Submitted to <span class="journal">ASME- Part A: Journal of Power and Energy</span> (Impact Factor: 1.6).
             </li>
         </ul>
-    </section>
 
-    <section id="publications">
         <h2>Selected Publications</h2>
 
         <h3>Journals</h3>
@@ -250,9 +384,101 @@
         </ul>
     </section>
 
+    <!-- ==================== GALLERY ==================== -->
+    <section class="page" id="gallery">
+        <h2>Gallery</h2>
+        <p class="page-intro">Schematics and figures from the team's simulation work.</p>
+
+        <div class="gallery-grid">
+            <figure class="gallery-item">
+                <img src="images/hero-frequency-response.svg" alt="Frequency response comparison after a load disturbance">
+                <figcaption>Grid frequency response following a load disturbance: regulated versus uncontrolled.</figcaption>
+            </figure>
+
+            <figure class="gallery-item">
+                <img src="images/p2p-microgrid.svg" alt="Peer-to-peer microgrid topology schematic">
+                <figcaption>Peer-to-peer microgrid topology with distributed sources, storage and controllable loads.</figcaption>
+            </figure>
+
+            <!-- ===================================================================
+                 TO ADD A FIGURE OR PHOTO:
+                 upload the file to images/ then copy the block below, removing
+                 these comment markers. PNG, JPG and SVG all work.
+            ====================================================================
+            <figure class="gallery-item">
+                <img src="images/FILENAME.png" alt="DESCRIBE THE IMAGE FOR SCREEN READERS">
+                <figcaption>CAPTION.</figcaption>
+            </figure>
+            ==================================================================== -->
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="page" id="contact">
+        <h2>Contact Us</h2>
+
+        <div class="contact-block">
+            <dl>
+                <dt>Principal Investigator</dt>
+                <dd>Dr. V S K V Harish, Assistant Professor</dd>
+
+                <dt>Email</dt>
+                <dd>
+                    <a href="mailto:vskv.harish@nsut.ac.in">vskv.harish@nsut.ac.in</a><br>
+                    <a href="mailto:vskvharish@ieee.org">vskvharish@ieee.org</a>
+                </dd>
+
+                <dt>Office</dt>
+                <dd>
+                    Room VI/215, Department of Electrical Engineering,<br>
+                    Netaji Subhas University of Technology (NSUT),<br>
+                    Sector - 3, Dwarka, New Delhi, India
+                </dd>
+
+                <dt>Publications</dt>
+                <dd><a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=AO-p1qAAAAAJ&sortby=pubdate" target="_blank" rel="noopener">Google Scholar profile</a></dd>
+            </dl>
+        </div>
+
+        <p class="section-desc">
+            Prospective research students and collaborators are welcome to write to the Principal Investigator directly, including a brief statement of research interest and a current CV.
+        </p>
+    </section>
+
+    </main>
+
     <p class="site-disclaimer">
         This is a privately organized and managed website and is not an official NSUT-handled website.
     </p>
+
+<script>
+(function () {
+    var tabs  = Array.prototype.slice.call(document.querySelectorAll('.site-nav a'));
+    var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+    var names = pages.map(function (p) { return p.id; });
+
+    function show(name, scroll) {
+        if (names.indexOf(name) === -1) { name = 'home'; }
+        pages.forEach(function (p) { p.classList.toggle('active', p.id === name); });
+        tabs.forEach(function (t) {
+            var on = t.getAttribute('data-tab') === name;
+            t.classList.toggle('active', on);
+            if (on) { t.setAttribute('aria-current', 'page'); }
+            else { t.removeAttribute('aria-current'); }
+        });
+        document.title = (name === 'home' ? '' : name.charAt(0).toUpperCase() + name.slice(1) + ' | ')
+                       + 'SIMCON Team | NSUT Delhi';
+        if (scroll) { window.scrollTo(0, 0); }
+    }
+
+    function fromHash(scroll) {
+        show((location.hash || '#home').replace('#', ''), scroll);
+    }
+
+    window.addEventListener('hashchange', function () { fromHash(true); });
+    fromHash(false);
+})();
+</script>
 
 </body>
 </html>

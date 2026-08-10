@@ -293,6 +293,101 @@
         @media (prefers-reduced-motion: reduce) {
             .newsbar-track li { transition: none; }
         }
+        /* ==================================================================
+           SUBTLE COLOUR PATCH
+           Paste this block immediately before the closing </style> tag.
+           It only adds rules; delete the whole block to revert.
+        ================================================================== */
+
+        /* 1. Page sits on a light neutral, content lifts to white on top.
+              Depth instead of a coloured page, so text stays on white. */
+        body { background: #eef1f6; }
+
+        main {
+            background: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 24px 30px 34px;
+            box-shadow: 0 1px 3px rgba(27, 31, 35, 0.05);
+        }
+
+        header { padding-left: 4px; }
+
+        .site-nav {
+            background: #ffffff;
+            border-radius: 8px 8px 0 0;
+            padding-left: 6px;
+        }
+
+        .site-disclaimer {
+            border-top: none;
+            margin-top: 22px;
+            padding: 0 4px;
+            color: #6a737d;
+        }
+
+        /* 2. Left-align prose. Justified text on a wide column stretches word
+              spaces and puts rivers of whitespace through the paragraph. */
+        .section-desc,
+        li { text-align: left; }
+
+        /* 3. A short coloured rule under each section heading. */
+        h2 { position: relative; border-bottom-color: #e6eaef; }
+        h2::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 54px;
+            height: 2px;
+            background: #0366d6;
+        }
+
+        /* 4. Six muted accents across the research-direction cards.
+              Confined to a 3px edge, so the page never turns loud. */
+        .focus-item { transition: background-color 0.15s ease, box-shadow 0.15s ease; }
+        .focus-item:hover { box-shadow: 0 1px 4px rgba(27, 31, 35, 0.07); }
+
+        .focus-grid .focus-item:nth-child(1) { border-left-color: #0366d6; }
+        .focus-grid .focus-item:nth-child(2) { border-left-color: #0e7490; }
+        .focus-grid .focus-item:nth-child(3) { border-left-color: #2f6f4e; }
+        .focus-grid .focus-item:nth-child(4) { border-left-color: #8a6d1f; }
+        .focus-grid .focus-item:nth-child(5) { border-left-color: #8c4a2f; }
+        .focus-grid .focus-item:nth-child(6) { border-left-color: #5b4b8a; }
+
+        .focus-grid .focus-item:nth-child(1):hover { background: #f5f9ff; }
+        .focus-grid .focus-item:nth-child(2):hover { background: #f2fafb; }
+        .focus-grid .focus-item:nth-child(3):hover { background: #f4faf6; }
+        .focus-grid .focus-item:nth-child(4):hover { background: #fbf9f2; }
+        .focus-grid .focus-item:nth-child(5):hover { background: #fbf6f3; }
+        .focus-grid .focus-item:nth-child(6):hover { background: #f8f7fc; }
+
+        /* 5. Cards warm very slightly and gain a soft edge. */
+        .pi-card {
+            background: #fbfcfd;
+            box-shadow: 0 1px 2px rgba(27, 31, 35, 0.03);
+        }
+        .person-photo { border-color: #dbe1e8; }
+
+        .student-item { transition: border-color 0.15s ease, background-color 0.15s ease; }
+        .student-item:hover { border-color: #c6d4e4; background: #f8fbff; }
+
+        .gallery-item { transition: box-shadow 0.15s ease, border-color 0.15s ease; }
+        .gallery-item:hover {
+            border-color: #c6d4e4;
+            box-shadow: 0 2px 8px rgba(27, 31, 35, 0.07);
+        }
+
+        /* 6. The goal box carries a touch more weight, as the one place on the
+              page that states the group's purpose in a single sentence. */
+        .goal-box {
+            background: linear-gradient(180deg, #f1f8ff 0%, #fafcff 100%);
+            border-left-width: 4px;
+        }
+
+        @media (max-width: 620px) {
+            main { padding: 18px 16px 26px; border-radius: 8px; }
+        }
     </style>
 </head>
 <body>

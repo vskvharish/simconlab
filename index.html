@@ -56,6 +56,85 @@
         .js .page.active { display: block; }
         .page-intro { color: #57606a; font-size: 1em; margin-top: 0; }
 
+        /* ================= NEWS TICKER =================
+           Edit only the <li> items inside <ul id="news-track"> in the HOME
+           section. Nothing else in this block needs touching.
+           The bar pauses on hover, on keyboard focus, and on the pause button.
+           With JavaScript off, or when the visitor's system asks for reduced
+           motion, it renders as a plain static list instead of scrolling.
+        ================================================= */
+        .newsbar {
+            display: flex;
+            align-items: stretch;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background: #f6f8fa;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .newsbar-label {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            background: #0366d6;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            padding: 0 13px;
+        }
+        .newsbar-viewport { flex: 1 1 auto; overflow: hidden; }
+        .newsbar-track {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .newsbar-track.rolling { animation: ticker linear infinite; }
+        .newsbar-track li {
+            flex: 0 0 auto;
+            margin: 0 52px 0 0;
+            padding: 10px 0;
+            font-size: 0.92em;
+            color: #24292e;
+            text-align: left;
+        }
+        .news-date { color: #57606a; font-weight: 600; margin-right: 9px; }
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+        .newsbar:hover .newsbar-track,
+        .newsbar:focus-within .newsbar-track,
+        .newsbar.paused .newsbar-track { animation-play-state: paused; }
+
+        .newsbar-toggle {
+            flex: 0 0 auto;
+            border: none;
+            border-left: 1px solid #e1e4e8;
+            background: #fff;
+            color: #57606a;
+            cursor: pointer;
+            padding: 0 13px;
+            font-size: 0.85em;
+            line-height: 1;
+        }
+        .newsbar-toggle:hover { background: #f1f8ff; color: #0366d6; }
+        .newsbar-toggle:focus-visible { outline: 2px solid #0366d6; outline-offset: -2px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .newsbar-track.rolling { animation: none; }
+            .newsbar-track { flex-wrap: wrap; white-space: normal; }
+            .newsbar-track li.news-clone { display: none; }
+            .newsbar-track li { margin: 0 26px 0 0; }
+            .newsbar-toggle { display: none; }
+        }
+        html:not(.js) .newsbar-track { flex-wrap: wrap; white-space: normal; }
+        html:not(.js) .newsbar-toggle { display: none; }
+
         /* ---------- Hero ---------- */
         .hero {
             width: 100%;
@@ -141,6 +220,12 @@
             .person-photo { width: 140px; height: 175px; flex-basis: auto; }
             .site-nav a { padding: 9px 11px; font-size: 0.88em; }
         }
+
+        /* Ticker sizing on small screens (added with the ticker) */
+        @media (max-width: 520px) {
+            .newsbar-label { font-size: 0.68em; padding: 0 9px; }
+            .newsbar-track li { font-size: 0.86em; margin-right: 36px; }
+        }
     </style>
 </head>
 <body>
@@ -163,6 +248,27 @@
 
     <!-- ==================== HOME ==================== -->
     <section class="page active" id="home">
+
+        <!-- =====================================================================
+             NEWS TICKER. To update the news, edit only the <li> items below.
+             Each item may optionally start with a date:
+                 <li><span class="news-date">12 Aug 2026</span> Your text here.</li>
+             Links work normally inside an item:
+                 <li><a href="https://...">Read the paper</a></li>
+             Add or remove items freely; the scroll speed adjusts automatically.
+        ====================================================================== -->
+        <div class="newsbar" id="newsbar" role="region" aria-label="Latest news">
+            <span class="newsbar-label">Latest</span>
+            <div class="newsbar-viewport">
+                <ul class="newsbar-track" id="news-track">
+                    <li>Paper accepted at IEEE PIICON 2026: <em>A Channel Separated LMI Delay-Margin Certificate for Multi-Area LFC with BESS and Aggregated Air-Conditioner Participation</em>.</li>
+                    <li>Now published in ASCE <em>Journal of Energy Engineering</em>: <a href="https://ascelibrary.org/doi/abs/10.1061/JLEED9.EYENG-6458" target="_blank" rel="noopener">Thermostatically Controlled Loads as Virtual Energy Storage Systems</a>.</li>
+                    <li>Ms. Prerna Yadav joins the doctoral cohort, working on the grid impact of hyperscale AI data centres.</li>
+                </ul>
+            </div>
+            <button class="newsbar-toggle" id="news-toggle" type="button" aria-pressed="false">&#10073;&#10073;</button>
+        </div>
+
         <img class="hero" src="images/hero-frequency-response.svg"
              alt="Grid frequency response after a load disturbance, comparing a regulated response with an uncontrolled one">
 
@@ -309,7 +415,7 @@
 
         <h3>Doctoral Researchers (PhD)</h3>
         <ul>
-            <li><strong>Ms. Sweta Gupta, Enrollment: 2022</strong> — Investigating and developing the <em>various hybrid evolutionary meta-heuristic optimization algorithms to tune the inverter air-conditioner based power grid frequency regulators</em>.</li>
+            <li><strong>Ms. Sweta Gupta, Enrollment: 2022</strong> — Investigating and developing the <em>various hybrid evolutionary meta-heuristicoptimization algorithms to tune the inverter air-conditioner based powergrid frequency regulators</em>.</li>
             <li><strong>Ms. Swati Arun Sabanware, Enrollment: 2023</strong> — Researching on the <em>Optimal Planning of Active Distribution System Considering Integration of EV Charging Station</em>.</li>
             <li><strong>Ms. Chandrika Verma, Enrollment: 2024</strong> — Investigating the <em>Impact Assessment of EV charging Station on Distribution System</em>.</li>
             <li><strong>Ms. Prerna Yadav, Enrollment: 2026</strong> — Shall start to work on <em>Impact of hyperscale AI data centres on the electrical grid architecture</em>.</li>
@@ -508,6 +614,77 @@
 
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
+})();
+</script>
+
+<!-- ==================== NEWS TICKER SCRIPT (added) ==================== -->
+<script>
+(function () {
+    var bar    = document.getElementById('newsbar');
+    var track  = document.getElementById('news-track');
+    var button = document.getElementById('news-toggle');
+    if (!bar || !track || !button) { return; }
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var originals = Array.prototype.slice.call(track.children);
+    if (!originals.length) { bar.style.display = 'none'; return; }
+
+    /* Scroll speed in pixels per second. Lower is slower and easier to read. */
+    var SPEED = 55;
+
+    /* A second copy of the list lets the loop repeat with no visible gap. */
+    originals.forEach(function (li) {
+        var copy = li.cloneNode(true);
+        copy.classList.add('news-clone');
+        copy.setAttribute('aria-hidden', 'true');
+        track.appendChild(copy);
+    });
+
+    function measure() {
+        var w = 0;
+        originals.forEach(function (li) {
+            var style = window.getComputedStyle(li);
+            w += li.offsetWidth + parseFloat(style.marginRight || 0);
+        });
+        return w;
+    }
+
+    function start() {
+        var w = measure();
+        if (!w) { return; }
+        track.style.animationDuration = (w / SPEED) + 's';
+        track.classList.add('rolling');
+    }
+
+    function setPaused(paused) {
+        bar.classList.toggle('paused', paused);
+        button.setAttribute('aria-pressed', paused ? 'true' : 'false');
+        button.setAttribute('aria-label', paused ? 'Resume news ticker' : 'Pause news ticker');
+        button.innerHTML = paused ? '&#9654;' : '&#10073;&#10073;';
+    }
+
+    button.addEventListener('click', function () {
+        setPaused(!bar.classList.contains('paused'));
+    });
+
+    setPaused(false);
+
+    if (!reduce) {
+        /* Wait for web fonts so the measured width is the final width. */
+        if (document.fonts && document.fonts.ready) { document.fonts.ready.then(start); }
+        else { window.addEventListener('load', start); }
+
+        var timer;
+        window.addEventListener('resize', function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                track.classList.remove('rolling');
+                start();
+            }, 200);
+        });
+    } else {
+        button.style.display = 'none';
+    }
 })();
 </script>
 

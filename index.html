@@ -56,145 +56,71 @@
         .js .page.active { display: block; }
         .page-intro { color: #57606a; font-size: 1em; margin-top: 0; }
 
-        /* ================= NEWS ROTATOR =================
-           One item at a time, held still and fully readable, then replaced
-           by the next moving upward. No motion while you are reading.
-
-           Edit only the <li> items inside <ul id="news-track"> in the HOME
-           section. Add data-link="#team" (or #publications, #gallery,
-           #contact) to make an item jump to that tab when clicked.
-
-           Pauses on hover, on keyboard focus, and on the pause button.
-           With JavaScript off, or when the visitor's system asks for reduced
-           motion, every item is shown at once as a plain static list.
-        ================================================= */
-        .newsbar {
-            display: flex;
-            align-items: stretch;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background: #f6f8fa;
-            overflow: hidden;
-            margin-bottom: 24px;
-        }
-        .newsbar-label {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            background: #0366d6;
-            color: #fff;
-            font-size: 0.75em;
-            font-weight: 700;
-            letter-spacing: 0.09em;
-            text-transform: uppercase;
-            padding: 0 13px;
-        }
-        .newsbar-viewport {
-            flex: 1 1 auto;
-            overflow: hidden;
-            padding: 0 14px;
-        }
-        .newsbar-track {
-            position: relative;
-            display: block;
-            list-style: none;
+        /* ================= LATEST =================
+           A static list. To update the news, edit only the <li> items inside
+           <ol class="news"> in the HOME section. Keep three to five, one line
+           each. The small grey label is an optional <span class="tag">.
+        ========================================== */
+        .news { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+        .news li {
+            border-left: 2px solid #e1e4e8;
+            padding: 5px 0 5px 15px;
             margin: 0;
-            padding: 0;
-        }
-        .newsbar-track li {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            margin: 0;
-            padding: 10px 0;
-            font-size: 0.92em;
-            line-height: 1.45;
-            color: #24292e;
+            font-size: 0.94em;
             text-align: left;
-            white-space: normal;
-            opacity: 0;
-            transform: translateY(100%);
-            transition: opacity 0.45s ease, transform 0.45s ease;
-            pointer-events: none;
+            transition: border-color 0.15s ease;
         }
-        .newsbar-track li.is-current {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-        .newsbar-track li.is-leaving {
-            opacity: 0;
-            transform: translateY(-100%);
-        }
-        .news-date { color: #57606a; font-weight: 600; margin-right: 9px; }
-
-        /* While the tallest item is being measured. */
-        .newsbar-track.measuring li {
-            position: relative;
-            opacity: 0;
-            transform: none;
-            transition: none;
+        .news li:hover { border-left-color: #0366d6; }
+        .news .tag {
+            display: block;
+            font-size: 0.72em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #6a737d;
+            font-weight: 700;
+            margin-bottom: 1px;
         }
 
-        /* Static fallback: no JavaScript, or reduced motion requested. */
-        .newsbar-track.is-static li,
-        html:not(.js) .newsbar-track li {
-            position: relative;
-            opacity: 1;
-            transform: none;
-            transition: none;
-            pointer-events: auto;
-            border-top: 1px solid #eaecef;
+        /* ================= RESEARCH DIRECTION CARDS =================
+           Each card sets --c to one accent colour, used only for the 2px top
+           edge and the icon. Copy a whole <article> to add a direction.
+        ============================================================ */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 18px;
         }
-        .newsbar-track.is-static li:first-child,
-        html:not(.js) .newsbar-track li:first-child { border-top: none; }
-
-        .newsbar-dots {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 0 12px;
+        .rd-card {
+            border: 1px solid #e1e4e8;
+            border-top: 2px solid var(--c, #0366d6);
+            border-radius: 6px;
+            padding: 18px;
             background: #fff;
-            border-left: 1px solid #e1e4e8;
+            transition: box-shadow 0.16s ease;
         }
-        .newsbar-dot {
-            width: 8px;
-            height: 8px;
-            padding: 0;
-            border: none;
-            border-radius: 50%;
-            background: #d1d5da;
-            cursor: pointer;
+        .rd-card:hover { box-shadow: 0 2px 10px rgba(27, 31, 35, 0.07); }
+        .rd-icon {
+            color: var(--c, #0366d6);
+            width: 28px; height: 28px;
+            display: block; margin-bottom: 12px;
         }
-        .newsbar-dot.active { background: #0366d6; }
-        .newsbar-dot:focus-visible { outline: 2px solid #0366d6; outline-offset: 2px; }
+        .rd-card h3 {
+            font-size: 0.99em; margin: 0 0 6px;
+            border-bottom: none; padding-bottom: 0; color: #24292e;
+        }
+        .rd-card p { font-size: 0.88em; color: #57606a; margin: 0; text-align: left; }
 
-        .newsbar-toggle {
-            flex: 0 0 auto;
-            border: none;
-            border-left: 1px solid #e1e4e8;
-            background: #fff;
-            color: #57606a;
-            cursor: pointer;
-            padding: 0 13px;
-            font-size: 0.85em;
-            line-height: 1;
-        }
-        .newsbar-toggle:hover { background: #f1f8ff; color: #0366d6; }
-        .newsbar-toggle:focus-visible { outline: 2px solid #0366d6; outline-offset: -2px; }
-
-        /* Clickable news items. An item carrying data-link jumps to that tab. */
-        .newsbar-track li[data-link] { cursor: pointer; }
-        .newsbar-track li[data-link]:hover { color: #0366d6; text-decoration: underline; }
-        .newsbar-track li[data-link]:focus-visible {
-            color: #0366d6;
-            outline: 2px solid #0366d6;
-            outline-offset: 2px;
+        /* Accent tokens for the cards above. */
+        :root {
+            --a-power: #0366d6;
+            --a-dsm:   #277C82;
+            --a-micro: #3D7A61;
+            --a-cps:   #9A5545;
+            --a-ev:    #2F6F8F;
+            --a-ai:    #62558A;
+            --a-p2p:   #9A7A24;
+            --a-robot: #526B84;
         }
 
         /* ---------- Hero ---------- */
@@ -206,12 +132,6 @@
             border-radius: 6px;
             margin-bottom: 28px;
         }
-
-        /* ---------- Focus areas ---------- */
-        .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
-        .focus-item { border: 1px solid #e1e4e8; border-left: 3px solid #0366d6; border-radius: 4px; padding: 12px 15px; background: #fff; }
-        .focus-item strong { display: block; color: #24292e; font-size: 0.98em; margin-bottom: 3px; }
-        .focus-item span { color: #57606a; font-size: 0.9em; }
 
         /* ---------- Person cards ---------- */
         .pi-card {
@@ -267,11 +187,35 @@
         .contact-block dt:first-child { margin-top: 0; }
         .contact-block dd { margin: 2px 0 0 0; color: #444; }
 
-        /* ---------- Disclaimer ---------- */
+        /* ================= FOOTER =================
+           The shaded panel at the very bottom. Carries the group identity,
+           the section links, Google Scholar profiles and the disclaimer.
+        ========================================== */
+        .site-footer {
+            background: #f7f9fb;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 30px 30px 22px;
+            margin-top: 24px;
+        }
+        .footer-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+            gap: 28px;
+        }
+        .footer-brand { font-weight: 700; color: #24292e; margin: 0 0 4px; }
+        .footer-sub { font-size: 0.86em; color: #6a737d; margin: 0; }
+        .footer-h {
+            font-size: 0.74em; letter-spacing: 0.07em; text-transform: uppercase;
+            color: #6a737d; font-weight: 700; margin: 0 0 8px;
+        }
+        .footer-links { list-style: none; margin: 0; padding: 0; }
+        .footer-links li { margin: 0 0 4px; text-align: left; }
+        .footer-links a { font-size: 0.88em; }
         .site-disclaimer {
-            margin-top: 45px;
+            margin: 26px 0 0;
             padding-top: 15px;
-            border-top: 1px solid #eaecef;
+            border-top: 1px solid #e1e4e8;
             font-size: 0.8em;
             color: #6a737d;
             font-style: italic;
@@ -283,16 +227,14 @@
             .site-nav a { padding: 9px 11px; font-size: 0.88em; }
         }
 
-        /* Rotator sizing on small screens */
-        @media (max-width: 520px) {
-            .newsbar-label { font-size: 0.68em; padding: 0 9px; }
-            .newsbar-track li { font-size: 0.86em; }
-            .newsbar-dots { display: none; }
+        @media (max-width: 700px) {
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 460px) {
+            .footer-inner { grid-template-columns: 1fr; }
+            .site-footer { padding: 22px 18px 18px; }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .newsbar-track li { transition: none; }
-        }
         body { background: #eef1f6; }
 
         main {
@@ -311,13 +253,6 @@
             padding-left: 6px;
         }
 
-        .site-disclaimer {
-            border-top: none;
-            margin-top: 22px;
-            padding: 0 4px;
-            color: #6a737d;
-        }
-
         /* 2. Left-align prose. Justified text on a wide column stretches word
               spaces and puts rivers of whitespace through the paragraph. */
         .section-desc,
@@ -334,25 +269,6 @@
             height: 2px;
             background: #0366d6;
         }
-
-        /* 4. Six muted accents across the research-direction cards.
-              Confined to a 3px edge, so the page never turns loud. */
-        .focus-item { transition: background-color 0.15s ease, box-shadow 0.15s ease; }
-        .focus-item:hover { box-shadow: 0 1px 4px rgba(27, 31, 35, 0.07); }
-
-        .focus-grid .focus-item:nth-child(1) { border-left-color: #0366d6; }
-        .focus-grid .focus-item:nth-child(2) { border-left-color: #0e7490; }
-        .focus-grid .focus-item:nth-child(3) { border-left-color: #2f6f4e; }
-        .focus-grid .focus-item:nth-child(4) { border-left-color: #8a6d1f; }
-        .focus-grid .focus-item:nth-child(5) { border-left-color: #8c4a2f; }
-        .focus-grid .focus-item:nth-child(6) { border-left-color: #5b4b8a; }
-
-        .focus-grid .focus-item:nth-child(1):hover { background: #f5f9ff; }
-        .focus-grid .focus-item:nth-child(2):hover { background: #f2fafb; }
-        .focus-grid .focus-item:nth-child(3):hover { background: #f4faf6; }
-        .focus-grid .focus-item:nth-child(4):hover { background: #fbf9f2; }
-        .focus-grid .focus-item:nth-child(5):hover { background: #fbf6f3; }
-        .focus-grid .focus-item:nth-child(6):hover { background: #f8f7fc; }
 
         /* 5. Cards warm very slightly and gain a soft edge. */
         .pi-card {
@@ -403,37 +319,42 @@
     <!-- ==================== HOME ==================== -->
     <section class="page active" id="home">
 
-        <!-- =====================================================================
-             NEWS ROTATOR. To update the news, edit only the <li> items below.
-             Each item may optionally start with a date:
-                 <li><span class="news-date">12 Aug 2026</span> Your text here.</li>
-             Links work normally inside an item:
-                 <li><a href="https://...">Read the paper</a></li>
-
-             TO MAKE AN ITEM JUMP TO A TAB, add data-link to the <li>:
-                 data-link="#publications"   data-link="#team"
-                 data-link="#gallery"        data-link="#contact"
-             Omit the attribute and the item is plain text, not clickable.
-
-             Keep to three to five items of about one line each. The bar sizes
-             itself to the tallest item, so a long item makes the bar tall.
-        ====================================================================== -->
-        <div class="newsbar" id="newsbar" role="region" aria-label="Latest news">
-            <span class="newsbar-label">Latest</span>
-            <div class="newsbar-viewport">
-                <ul class="newsbar-track" id="news-track">
-                    <li data-link="#publications">PUBLICATION ALERT: Mr. Rahul Virmani under the supervision of Dr. Astitva Kumar and Prof. Prerna Gaur published his work at the <a href="https://ieeexplore.ieee.org/abstract/document/11600573/" target="_blank" rel="noopener"><em>IEEE Transactions on Industry Applications</em></a>.</li>
-                    <li data-link="#team">Ms. Prerna Yadav, M. Tech (NSUT) joins the doctoral cohort, working on the grid impact of hyperscale AI data centres.</li>
-                    <li data-link="#team">Mr. Subhankar Kumar, M. Tech (NSUT) joins the doctoral cohort, working on the Optimal EV charging</li>
-                    <li data-link="#publications">Conference Paper: Ms. Swati Arun under the supervision of Dr. Subhodip Saha presented her work at the <a href="https://vnit.ac.in/sefet26/conference/events/program.html" target="_blank" rel="noopener"><em>IEEE 6th International Conference on Sustainable Energy and Future Electric Transportation (SEFET)</em></a>.</li>    
-                    </ul>
-            </div>
-            <div class="newsbar-dots" id="news-dots" role="tablist" aria-label="Choose news item"></div>
-            <button class="newsbar-toggle" id="news-toggle" type="button" aria-pressed="false">&#10073;&#10073;</button>
-        </div>
-
         <img class="hero" src="images/hero-frequency-response.svg"
              alt="Grid frequency response after a load disturbance, comparing a regulated response with an uncontrolled one">
+
+        <!-- =====================================================================
+             LATEST. Edit only the <li> items below. Keep three to five items,
+             about one line each. The <span class="tag"> label is optional.
+             Links inside an item work normally.
+        ====================================================================== -->
+        <h2>Latest</h2>
+        <ol class="news">
+            <li>
+                <span class="tag">Journal paper</span>
+                Mr. Rahul Virmani, under the supervision of Dr. Astitva Kumar and
+                Prof. Prerna Gaur, published his work in
+                <a href="https://ieeexplore.ieee.org/abstract/document/11600573/"
+                   target="_blank" rel="noopener">IEEE Transactions on Industry Applications</a>.
+            </li>
+            <li>
+                <span class="tag">Conference</span>
+                Ms. Swati Arun, under the supervision of Dr. Subhodip Saha, presented her
+                work at the
+                <a href="https://vnit.ac.in/sefet26/conference/events/program.html"
+                   target="_blank" rel="noopener">IEEE 6th International Conference on
+                Sustainable Energy and Future Electric Transportation (SEFET)</a>.
+            </li>
+            <li>
+                <span class="tag">Doctoral cohort</span>
+                Ms. Prerna Yadav, M.Tech (NSUT), joins the doctoral cohort, working on the
+                grid impact of hyperscale AI data centres. <a href="#team">Team</a>
+            </li>
+            <li>
+                <span class="tag">Doctoral cohort</span>
+                Mr. Subhankar Kumar, M.Tech (NSUT), joins the doctoral cohort, working on
+                optimal EV charging. <a href="#team">Team</a>
+            </li>
+        </ol>
 
         <h2>About the Group</h2>
         <p class="section-desc">
@@ -444,32 +365,105 @@
             <p><strong>Overall Research Goal:</strong> To deliver highly secure, scalable, and resilient mathematical control frameworks that protect modern power systems against cyber-adversaries, mitigate stochastic vulnerabilities, and seamlessly optimize renewable-dominated microgrids.</p>
         </div>
 
+        <!-- =====================================================================
+             RESEARCH DIRECTIONS. Copy a whole <article class="rd-card"> to add
+             one. Set --c to an accent token, keep the icon at 24x24, and hold
+             the description to two lines.
+        ====================================================================== -->
         <h2>Research Directions</h2>
-        <div class="focus-grid">
-            <div class="focus-item">
-                <strong>Frequency regulation</strong>
-                <span>Intelligent controllers for multi-area and multi-source systems.</span>
-            </div>
-            <div class="focus-item">
-                <strong>Demand-side management</strong>
-                <span>Thermostatically controlled loads as virtual energy storage.</span>
-            </div>
-            <div class="focus-item">
-                <strong>Grid-interactive buildings</strong>
-                <span>Occupant-centric, comfort-aware control of building loads.</span>
-            </div>
-            <div class="focus-item">
-                <strong>P2P energy trading</strong>
-                <span>Dynamic pricing mechanisms for localized microgrid markets.</span>
-            </div>
-            <div class="focus-item">
-                <strong>Cyber-physical resilience</strong>
-                <span>Control under DoS attacks, time delays and stochastic faults.</span>
-            </div>
-            <div class="focus-item">
-                <strong>Data centre loads</strong>
-                <span>Impact of hyperscale AI infrastructure on grid architecture.</span>
-            </div>
+        <div class="cards">
+
+            <article class="rd-card" style="--c: var(--a-power)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 14h4l2.5-8 3 14L14 12l2 4h6"/>
+                </svg>
+                <h3>Power system dynamics &amp; control</h3>
+                <p>Load-frequency control, multi-area and multi-source systems,
+                   delay-dependent and nonlinear control, stability analysis.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-dsm)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="5" width="20" height="9" rx="1.5"/>
+                    <path d="M5 8h14M5 11h14M6 17c1.5 2-1 2.5 0 4M12 17c1.5 2-1 2.5 0 4M18 17c1.5 2-1 2.5 0 4"/>
+                </svg>
+                <h3>Demand-side flexibility &amp; buildings</h3>
+                <p>Thermostatically controlled loads and inverter air-conditioners as
+                   virtual energy storage, with comfort-aware occupant-centric control.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-micro)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="6" cy="6" r="3"/><path d="M6 1.5v1M6 9.5v1M1.5 6h1M9.5 6h1"/>
+                    <path d="M18 3v6M15.5 4.5l5 3M2 20h20M6 14v6M18 14v6"/>
+                </svg>
+                <h3>Renewable energy &amp; microgrids</h3>
+                <p>Solar photovoltaics, wind, battery storage, small hydro and distributed
+                   generation in renewable-integrated microgrids.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-cps)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/>
+                    <path d="M8.5 12l2.5 2.5 4.5-5"/>
+                </svg>
+                <h3>Cyber-physical resilience</h3>
+                <p>Secure and safety-critical control under denial-of-service attacks,
+                   communication delays and stochastic faults.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-ev)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 15h14v-4l-2-4H4L2 11z"/><circle cx="6" cy="18" r="1.8"/>
+                    <circle cx="13" cy="18" r="1.8"/><path d="M19 6v12M19 9h3M20.5 12h1.5"/>
+                </svg>
+                <h3>EVs, distribution &amp; emerging loads</h3>
+                <p>EV charging infrastructure and its impact on distribution systems,
+                   active distribution planning, and hyperscale AI data-centre loads.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-ai)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/>
+                    <circle cx="12" cy="12" r="2"/><circle cx="19" cy="7" r="2"/>
+                    <circle cx="19" cy="17" r="2"/>
+                    <path d="M6.7 7.2L10.4 11M6.7 16.8L10.4 13M13.8 11.2L17.3 8.2M13.8 12.8l3.5 3"/>
+                </svg>
+                <h3>AI, optimization &amp; intelligent systems</h3>
+                <p>Deep learning for power-quality classification, evolutionary and hybrid
+                   metaheuristics, soft computing and intelligent controllers.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-p2p)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="4" cy="12" r="2"/><circle cx="12" cy="5" r="2"/>
+                    <circle cx="12" cy="19" r="2"/><circle cx="20" cy="12" r="2"/>
+                    <path d="M6 11l4-4M14 7l4 4M18 13l-4 4M10 17l-4-4"/>
+                </svg>
+                <h3>P2P energy systems &amp; markets</h3>
+                <p>Peer-to-peer trading, supply-demand ratio pricing and demand-side
+                   management in localized microgrid markets.</p>
+            </article>
+
+            <article class="rd-card" style="--c: var(--a-robot)">
+                <svg class="rd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="6" y="10" width="12" height="7" rx="1.5"/>
+                    <circle cx="9" cy="19" r="1.6"/><circle cx="15" cy="19" r="1.6"/>
+                    <path d="M12 10V7M12 7l-5 2M12 7l5 2M3 5.5l3 1.2M21 5.5l-3 1.2"/>
+                </svg>
+                <h3>Autonomous systems &amp; robotics</h3>
+                <p>Unmanned ground vehicles, 2D and 3D LiDAR mapping, path planning and
+                   trajectory optimization.</p>
+            </article>
+
         </div>
 
         <img class="hero" style="margin-top: 32px; border: none;" src="images/p2p-microgrid.svg"
@@ -801,9 +795,42 @@
 
     </main>
 
-    <p class="site-disclaimer">
-        This is a privately organized and managed website and is not an official NSUT-handled website.
-    </p>
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p class="footer-brand">SIMCON Group</p>
+                <p class="footer-sub">Simulation and Control of Sustainable Energy Systems Group</p>
+                <p class="footer-sub">Netaji Subhas University of Technology (NSUT), Delhi, India</p>
+            </div>
+
+            <nav aria-label="Footer">
+                <p class="footer-h">Sections</p>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#publications">Publications</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div>
+                <p class="footer-h">Google Scholar</p>
+                <ul class="footer-links">
+                    <li><a href="https://scholar.google.com/citations?user=AO-p1qAAAAAJ" target="_blank" rel="noopener">V. S. K. V. Harish</a></li>
+                    <li><a href="https://scholar.google.com/citations?user=DMCFGqUAAAAJ" target="_blank" rel="noopener">Ravinder Singh</a></li>
+                    <li><a href="https://scholar.google.com/citations?hl=en&amp;user=q3kDGt8AAAAJ" target="_blank" rel="noopener">Astitva Kumar</a></li>
+                    <li><a href="https://scholar.google.com/citations?hl=en&amp;user=Gv38qG8AAAAJ" target="_blank" rel="noopener">Subhodip Saha</a></li>
+                    <li><a href="https://scholar.google.com/citations?hl=en&amp;user=mkaUbswAAAAJ" target="_blank" rel="noopener">Vineet Kumar</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="site-disclaimer">
+            This is a privately organized and managed website and is not an official NSUT-handled website.
+        </p>
+    </footer>
 
 <script>
 (function () {
@@ -831,167 +858,6 @@
 
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
-})();
-</script>
-
-<!-- ==================== NEWS ROTATOR SCRIPT ==================== -->
-<script>
-(function () {
-    var bar    = document.getElementById('newsbar');
-    var track  = document.getElementById('news-track');
-    var dots   = document.getElementById('news-dots');
-    var button = document.getElementById('news-toggle');
-    if (!bar || !track || !button) { return; }
-
-    var items = Array.prototype.slice.call(track.children);
-    if (!items.length) { bar.style.display = 'none'; return; }
-
-    /* How long each item is held still, in milliseconds. */
-    var DWELL = 6000;
-
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    /* Reduced motion: show every item at once, no rotation, no controls. */
-    if (reduce) {
-        track.classList.add('is-static');
-        button.style.display = 'none';
-        if (dots) { dots.style.display = 'none'; }
-        return;
-    }
-
-    var index = 0;
-    var timer = null;
-    var paused = false;
-
-    /* The bar is sized to the tallest item so the layout never jumps. */
-    function fit() {
-        track.classList.add('measuring');
-        var tallest = 0;
-        items.forEach(function (li) {
-            if (li.offsetHeight > tallest) { tallest = li.offsetHeight; }
-        });
-        track.classList.remove('measuring');
-        track.style.height = tallest + 'px';
-    }
-
-    function paint() {
-        items.forEach(function (li, k) {
-            var on = (k === index);
-            li.classList.toggle('is-current', on);
-            li.setAttribute('aria-hidden', on ? 'false' : 'true');
-            if (li.hasAttribute('data-link')) {
-                li.setAttribute('tabindex', on ? '0' : '-1');
-            }
-        });
-        if (dots) {
-            Array.prototype.slice.call(dots.children).forEach(function (d, k) {
-                d.classList.toggle('active', k === index);
-                d.setAttribute('aria-selected', k === index ? 'true' : 'false');
-            });
-        }
-    }
-
-    function goTo(next) {
-        if (next === index || items.length < 2) { return; }
-        var out = items[index];
-        out.classList.add('is-leaving');
-        window.setTimeout(function () { out.classList.remove('is-leaving'); }, 500);
-        index = (next + items.length) % items.length;
-        paint();
-    }
-
-    function tick() { goTo(index + 1); }
-
-    function run() {
-        stop();
-        if (!paused && items.length > 1) { timer = window.setInterval(tick, DWELL); }
-    }
-    function stop() {
-        if (timer) { window.clearInterval(timer); timer = null; }
-    }
-
-    /* Dot controls, one per item, so a visitor can skip ahead. */
-    if (dots && items.length > 1) {
-        items.forEach(function (li, k) {
-            var d = document.createElement('button');
-            d.type = 'button';
-            d.className = 'newsbar-dot';
-            d.setAttribute('role', 'tab');
-            d.setAttribute('aria-label', 'News item ' + (k + 1) + ' of ' + items.length);
-            d.addEventListener('click', function () { goTo(k); run(); });
-            dots.appendChild(d);
-        });
-    } else if (dots) {
-        dots.style.display = 'none';
-    }
-
-    function setPaused(state) {
-        paused = state;
-        bar.classList.toggle('paused', paused);
-        button.setAttribute('aria-pressed', paused ? 'true' : 'false');
-        button.setAttribute('aria-label', paused ? 'Resume news' : 'Pause news');
-        button.innerHTML = paused ? '&#9654;' : '&#10073;&#10073;';
-        run();
-    }
-    button.addEventListener('click', function () { setPaused(!paused); });
-
-    /* Hover and keyboard focus hold the current item without changing the
-       pause button's own state. */
-    bar.addEventListener('mouseenter', stop);
-    bar.addEventListener('mouseleave', run);
-    bar.addEventListener('focusin', stop);
-    bar.addEventListener('focusout', run);
-
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-        window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(fit, 200);
-    });
-
-    function init() { fit(); paint(); run(); }
-
-    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(init); }
-    else { window.addEventListener('load', init); }
-    paint();
-})();
-</script>
-
-<!-- ============ CLICKABLE NEWS ITEMS ============
-     Any <li> in the rotator carrying data-link="#team" (or #publications,
-     #gallery, #contact) switches to that tab when clicked, tapped, or
-     activated with Enter. Real links inside an item still work normally.
-============================================== -->
-<script>
-(function () {
-    var track = document.getElementById('news-track');
-    if (!track || !document.documentElement.closest) { return; }
-
-    Array.prototype.slice.call(track.querySelectorAll('li[data-link]')).forEach(function (li) {
-        li.setAttribute('role', 'link');
-    });
-
-    function go(li) {
-        var target = li.getAttribute('data-link');
-        if (!target) { return; }
-        if (window.location.hash === target) {
-            window.scrollTo(0, 0);
-        } else {
-            window.location.hash = target;
-        }
-    }
-
-    track.addEventListener('click', function (e) {
-        /* A real <a> inside the item wins; do not hijack it. */
-        if (e.target.closest('a')) { return; }
-        var li = e.target.closest('li[data-link]');
-        if (li) { go(li); }
-    });
-
-    track.addEventListener('keydown', function (e) {
-        if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') { return; }
-        var li = e.target.closest ? e.target.closest('li[data-link]') : null;
-        if (li) { e.preventDefault(); go(li); }
-    });
 })();
 </script>
 

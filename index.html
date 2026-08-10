@@ -125,6 +125,16 @@
         .newsbar-toggle:hover { background: #f1f8ff; color: #0366d6; }
         .newsbar-toggle:focus-visible { outline: 2px solid #0366d6; outline-offset: -2px; }
 
+        /* Clickable news items (added). An item carrying data-link jumps to
+           that tab when clicked or activated with Enter. */
+        .newsbar-track li[data-link] { cursor: pointer; }
+        .newsbar-track li[data-link]:hover { color: #0366d6; text-decoration: underline; }
+        .newsbar-track li[data-link]:focus-visible {
+            color: #0366d6;
+            outline: 2px solid #0366d6;
+            outline-offset: 2px;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .newsbar-track.rolling { animation: none; }
             .newsbar-track { flex-wrap: wrap; white-space: normal; }
@@ -255,16 +265,22 @@
                  <li><span class="news-date">12 Aug 2026</span> Your text here.</li>
              Links work normally inside an item:
                  <li><a href="https://...">Read the paper</a></li>
+
+             TO MAKE AN ITEM JUMP TO A TAB, add data-link to the <li>:
+                 data-link="#publications"   data-link="#team"
+                 data-link="#gallery"        data-link="#contact"
+             Omit the attribute and the item is plain text, not clickable.
+
              Add or remove items freely; the scroll speed adjusts automatically.
         ====================================================================== -->
         <div class="newsbar" id="newsbar" role="region" aria-label="Latest news">
             <span class="newsbar-label">Latest</span>
             <div class="newsbar-viewport">
                 <ul class="newsbar-track" id="news-track">
-                    <li>PUBLICATION ALERT: Mr. Rahul Virmani under the supervision of Dr. Astitva Kumar and Prof. Prerna Gaur published his research <em>Green AI Driven Deep-learning Framework For Real-Time Multi-class Power Quality Disturbance Classification in Smart Grid Architecture</em>.</li>
-                    <li>Now published in <em>IEEE Transactions on Industry Applications</em>: <a href="https://ieeexplore.ieee.org/abstract/document/11600573/" target="_blank" rel="noopener"></a>.</li>
-                    <li>Ms. Prerna Yadav, M. Tech (NSUT) joins the doctoral cohort, working on the grid impact of hyperscale AI data centres.</li>
-                    <li>Mr. Subhankar Kumar, M. Tech (NSUT) joins the doctoral cohort, working on the Optimal EV charging</li>
+                    <li data-link="#publications">PUBLICATION ALERT: Mr. Rahul Virmani under the supervision of Dr. Astitva Kumar and Prof. Prerna Gaur published his research <em>Green AI Driven Deep-learning Framework For Real-Time Multi-class Power Quality Disturbance Classification in Smart Grid Architecture</em>.</li>
+                    <li data-link="#publications">Now published in <em>IEEE Transactions on Industry Applications</em>: <a href="https://ieeexplore.ieee.org/abstract/document/11600573/" target="_blank" rel="noopener"></a>.</li>
+                    <li data-link="#team">Ms. Prerna Yadav, M. Tech (NSUT) joins the doctoral cohort, working on the grid impact of hyperscale AI data centres.</li>
+                    <li data-link="#team">Mr. Subhankar Kumar, M. Tech (NSUT) joins the doctoral cohort, working on the Optimal EV charging</li>
                 </ul>
             </div>
             <button class="newsbar-toggle" id="news-toggle" type="button" aria-pressed="false">&#10073;&#10073;</button>
@@ -686,6 +702,48 @@
     } else {
         button.style.display = 'none';
     }
+})();
+</script>
+
+<!-- ============ CLICKABLE NEWS ITEMS (added) ============
+     Any <li> in the ticker carrying data-link="#team" (or #publications,
+     #gallery, #contact) switches to that tab when clicked, tapped, or
+     activated with Enter. Real links inside an item still work normally.
+====================================================== -->
+<script>
+(function () {
+    var track = document.getElementById('news-track');
+    if (!track || !document.documentElement.closest) { return; }
+
+    Array.prototype.slice.call(track.querySelectorAll('li[data-link]')).forEach(function (li) {
+        li.setAttribute('role', 'link');
+        /* Only the first copy of each item is a keyboard stop; the duplicate
+           used for the seamless loop is skipped. */
+        li.setAttribute('tabindex', li.classList.contains('news-clone') ? '-1' : '0');
+    });
+
+    function go(li) {
+        var target = li.getAttribute('data-link');
+        if (!target) { return; }
+        if (window.location.hash === target) {
+            window.scrollTo(0, 0);
+        } else {
+            window.location.hash = target;
+        }
+    }
+
+    track.addEventListener('click', function (e) {
+        /* A real <a> inside the item wins; do not hijack it. */
+        if (e.target.closest('a')) { return; }
+        var li = e.target.closest('li[data-link]');
+        if (li) { go(li); }
+    });
+
+    track.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') { return; }
+        var li = e.target.closest ? e.target.closest('li[data-link]') : null;
+        if (li) { e.preventDefault(); go(li); }
+    });
 })();
 </script>
 
